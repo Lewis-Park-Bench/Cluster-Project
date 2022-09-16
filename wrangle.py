@@ -143,7 +143,7 @@ def create_features(df):
 
     return df
 
-def remove_outliers():
+def remove_outliers(df):
     '''
     remove outliers in bed, bath, zip, square feet, acres & tax rate
     '''
@@ -156,6 +156,12 @@ def remove_outliers():
                (df.calculatedfinishedsquarefeet < 10000) & 
                (df.taxrate < 10)
               )]
+              
+def wrangle_zillow():
+    df = remove_outliers(create_features(get_counties(get_zillow_data())))
+    
+    return df
+
 
 def split(df, target_var):
     '''
