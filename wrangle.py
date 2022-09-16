@@ -18,38 +18,60 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def get_connection(db, user = env.user, host = env.host, password = env.password):
+    '''
+    Takes database name for input,
+    returns url, using user, password, and host pulled from your .env file.
+    PLEASE save it as a variable, and do NOT just print your credientials to your document.
+    '''
     return f'mysql+pymysql://{user}:{password}@{host}/{db}'
 
 
 def get_zillow_data():
-    query = '''
-    select prop.parcelid
-        , pred.logerror
-        , bathroomcnt
-        , bedroomcnt
-        , calculatedfinishedsquarefeet
-        , fips
-        , latitude
-        , longitude
-        , lotsizesquarefeet
-        , regionidcity
-        , regionidcounty
-        , regionidzip
-        , yearbuilt
-        , structuretaxvaluedollarcnt
-        , taxvaluedollarcnt
-        , landtaxvaluedollarcnt
-        , taxamount
-    from properties_2017 prop
-    inner join predictions_2017 pred on prop.parcelid = pred.parcelid
-    where propertylandusetypeid = 261;
     '''
-    df = pd.read_sql(query, get_connection('zillow'))
-
-    return df
-
-def get_counties():
+    This Function Returns the Zillow 2017 Data Frame. If zillow.csv is in the local
+    folder it will pull and use that. Otherwise, it will query the SQL server, pulling
+    the queried data from properties_2017 as well as logerror from prediction_2017
+    for all properties with the propertylandusetypeid '261', Single Family Residential.
+    Then saves the data as a .csv
     '''
+    filename= 'zillow.csv'
+    if os.path.isfile(filename):
+        df = pd.read_csv(filename)
+        df = df.drop(columns="Unnamed: 0")
+
+        return df
+    else:
+        query = '''
+        select prop.parcelid
+            , pred.logerror
+            , bathroomcnt
+            , bedroomcnt
+            , calculatedfinishedsquarefeet
+            , fips
+            , latitude
+            , longitude
+            , lotsizesquarefeet
+            , regionidcity
+            , regionidcounty
+            , regionidzip
+            , yearbuilt
+            , structuretaxvaluedollarcnt
+            , taxvaluedollarcnt
+            , landtaxvaluedollarcnt
+            , taxamount
+        from properties_2017 prop
+        inner join predictions_2017 pred on prop.parcelid = pred.parcelid
+        where propertylandusetypeid = 261;
+        '''
+        df = pd.read_sql(query, get_connection('zillow'))
+        df.to_csv(filename)
+
+        return df
+
+def get_counties(df):
+    '''
+    NEW DOCSTRING NEEDED
+    OLD ONE:
     This function will create dummy variables out of the original fips column. 
     And return a dataframe with all of the original columns except regionidcounty.
     We will keep fips column for data validation after making changes. 
