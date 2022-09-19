@@ -65,6 +65,8 @@ def get_zillow_data():
         where propertylandusetypeid = 261;
         '''
         df = pd.read_sql(query, get_connection('zillow'))
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        df.columns.values[5] = "fips"
         df.to_csv(filename)
 
         return df
