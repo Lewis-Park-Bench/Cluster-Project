@@ -72,6 +72,7 @@ def model_metrics(model,
     })
     scores.append(a)
     return scores
+    
 def scaling_min_max(X_train, X_validate, X_test, numeric_cols):
     """
     this function takes in 3 dataframes with the same columns,
