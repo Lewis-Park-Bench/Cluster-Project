@@ -61,11 +61,11 @@ A function is used to acquire the data via a SQL query. The data is then prepare
 
 ## <a name="explore"></a>Data Exploration:
 
-### Measuring the significance of location.
+### Searching for Cluster Features
 
+The features were all plotted and several were binned to peek at variance, counts, and distributions. A choice was made to focus
 
-
-### Exploring the remaining columns.
+### Exploring the remaining columns
 
 
 

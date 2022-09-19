@@ -38,6 +38,7 @@ def get_zillow_data():
     if os.path.isfile(filename):
         df = pd.read_csv(filename, header=0, delim_whitespace=True)
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        df.columns.values[5] = "fips"
 
         return df
     else:
