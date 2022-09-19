@@ -36,8 +36,8 @@ def get_zillow_data():
     '''
     filename= 'zillow.csv'
     if os.path.isfile(filename):
-        df = pd.read_csv(filename)
-        df = df.drop(columns="Unnamed: 0")
+        df = pd.read_csv(filename, header=0, delim_whitespace=True)
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
         return df
     else:
