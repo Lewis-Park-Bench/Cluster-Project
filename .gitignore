@@ -2,3 +2,5 @@
 *.csv
 env.py
 Trash.ipynb
+__pycache__/env.cpython-39.pyc
+__pycache__/wrangle.cpython-39.pyc

@@ -17,7 +17,7 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-def get_connection(db, user = env.user, host = env.host, password = env.password):
+def get_connection(db, user = env.username, host = env.hostname, password = env.password):
     '''
     Takes database name for input,
     returns url, using user, password, and host pulled from your .env file.
