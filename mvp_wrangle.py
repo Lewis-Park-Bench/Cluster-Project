@@ -80,7 +80,7 @@ def get_counties(df):
     The fips ids are renamed to be the name of the county each represents. 
     '''
     # create dummy vars of fips id
-    county_df = pd.get_dummies(df.fips)
+    county_df = pd.get_dummies(df["fips"])
     # rename columns by actual county name
     county_df.columns = ['LA', 'Orange', 'Ventura']
     # concatenate the dataframe with the 3 county columns to the original dataframe
