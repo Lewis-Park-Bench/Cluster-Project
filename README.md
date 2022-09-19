@@ -25,8 +25,7 @@ Goals:
 
 | Model Target Feature | Definition | Data Type |
 | ----- | ----- | ----- |
-| logerror |  | float |
-
+| logerror | The difference between the Zillow estimate for property price and what the property was actually sold for. | float |
 
 ---
 | Feature | Definition | Data Type |
