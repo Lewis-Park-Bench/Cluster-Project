@@ -26,6 +26,18 @@ def get_connection(db, user = env.username, host = env.hostname, password = env.
     return f'mysql+pymysql://{user}:{password}@{host}/{db}'
 
 
+def wrangle_zillow():
+    df = get_zillow_data()
+    df = get_counties(df)
+    df = create_features(df)
+    df = remove_outliers(df)
+    train, X_train, X_validate, X_test, y_train, y_validate, y_test = split(df, 'logerror')
+
+
+    return train, X_train, X_validate, X_test, y_train, y_validate, y_test
+
+
+
 def get_zillow_data():
     '''
     This Function Returns the Zillow 2017 Data Frame. If zillow.csv is in the local
@@ -36,8 +48,8 @@ def get_zillow_data():
     '''
     filename= 'zillow.csv'
     if os.path.isfile(filename):
-        df = pd.read_csv(filename, header=0, delim_whitespace=True)
-        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        df = pd.read_csv(filename)
+        df = df.drop(columns="Unnamed: 0")
 
         return df
     else:
@@ -156,12 +168,6 @@ def remove_outliers(df):
                (df.calculatedfinishedsquarefeet < 10000) & 
                (df.taxrate < 10)
               )]
-              
-def wrangle_zillow():
-    df = remove_outliers(create_features(get_counties(get_zillow_data())))
-    
-    return df
-
 
 def split(df, target_var):
     '''
