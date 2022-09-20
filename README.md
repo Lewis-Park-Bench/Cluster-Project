@@ -77,8 +77,8 @@ Four cluster groups were made: structure_dollar_per_sqft, area_bedbath_clusters,
 | Model | rmse | r2_score |
 | ---- | ---- | ---- |
 | Baseline | .018  | - |
-| OLS | 0.17 | -0.144 |  
-| LassoLars | 0.17 | -0,00 |  
+| OLS | 0.17 | -1.234 |  
+| LassoLars | 0.17 | -0,0 |  
 | Polynomial | 0.17 | -0.0 |  
 
 - Which model was chosen?
@@ -93,7 +93,7 @@ The OLS model was chosen because an interesting highly negative RNSE was returne
 | Model | rmse | r2_score |
 | ---- | ---- | ---- |
 | Baseline | .018  | - |
-| OLS_test | .21 | -0.308  |  
+| OLS_test | .18 | -0.029  |  
 
 ## <a name="conclusion"></a>Conclusions:
 
@@ -103,3 +103,9 @@ The OLS model was chosen because an interesting highly negative RNSE was returne
 
 - More time is needed to feature engineer much better clusters. These new clusters should probably include features that focus on location. 
 - Further investigation into clustering and linear regression is required to determine if it is the best course of predicting the logerror.
+
+## Recreating this project:
+
+- Download the final_project.ipynb, wrangle.py, explore.py, and modeling.py files.
+- Import your own env.py file into the project with your own credentials to pull the data.
+- Run the final_project.
