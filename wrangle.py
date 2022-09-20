@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import seaborn as sns
 import urllib.request
+from explore import *
 from PIL import Image
 from pydataset import data
 from sklearn.model_selection import train_test_split
@@ -31,9 +32,15 @@ def wrangle_zillow():
     df = get_counties(df)
     df = create_features(df)
     df = remove_outliers(df)
+    df = df.rename(columns={'bathroomcnt' : 'bathrooms', 'bedroomcnt' : 'bedrooms', 'calculatedfinishedsquarefeet': 'area', 'taxvaluedollarcnt': 'tax_value', 'taxamount': 'tax_amount', 'taxrate':'tax_rate'})
+
+    nice_hist(df)
+    return df
+
+def clean_and_split(df):
+    df = df.dropna()
+    df = drop_loc(df)
     train, X_train, X_validate, X_test, y_train, y_validate, y_test = split(df, 'logerror')
-
-
     return train, X_train, X_validate, X_test, y_train, y_validate, y_test
 
 
