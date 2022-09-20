@@ -426,7 +426,16 @@ def adc_step1(train):
     Clu3 = train.logerror[train.area_dollar_clusters == 3]
     Clu4 = train.logerror[train.area_dollar_clusters == 4]
     stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3, Clu4)
-    print("graphs here")
+    sns.histplot(x= train.logerror[train.area_dollar_clusters == 0])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_dollar_clusters == 1])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_dollar_clusters == 2])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_dollar_clusters == 3])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_dollar_clusters == 4])
+    plt.show()
     if p < α:
         print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
     else:
@@ -451,7 +460,14 @@ def abbc_step1(train):
     Clu2 = train.logerror[train.area_bedbath_clusters == 2]
     Clu3 = train.logerror[train.area_bedbath_clusters == 3]
     stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3)
-    print("graph here")
+    sns.histplot(x= train.logerror[train.area_bedbath_clusters == 0])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_bedbath_clusters == 1])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_bedbath_clusters == 2])
+    plt.show()
+    sns.histplot(x= train.logerror[train.area_bedbath_clusters == 3])
+    plt.show()
     if p < α:
         print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
     else:
@@ -477,7 +493,18 @@ def abv_step1(train):
     Clu4 = train.logerror[train.acre_bath_value == 4]
     Clu5 = train.logerror[train.acre_bath_value == 5]
     stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3, Clu4, Clu5)
-    print("Graph here")
+    sns.histplot(x= train.logerror[train.acre_bath_value == 0])
+    plt.show()
+    sns.histplot(x= train.logerror[train.acre_bath_value == 1])
+    plt.show()
+    sns.histplot(x= train.logerror[train.acre_bath_value == 2])
+    plt.show()
+    sns.histplot(x= train.logerror[train.acre_bath_value == 3])
+    plt.show()
+    sns.histplot(x= train.logerror[train.acre_bath_value == 4])
+    plt.show()
+    sns.histplot(x= train.logerror[train.acre_bath_value == 5])
+    plt.show()
     if p < α:
         print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
     else:
@@ -504,7 +531,18 @@ def avs_step1(train):
     Clu3 = train.logerror[train.areas_valuepsqft == 3]
     Clu4 = train.logerror[train.areas_valuepsqft == 4]
     Clu5 = train.logerror[train.areas_valuepsqft == 5]
-    print("graphs here")
+    sns.histplot(x= train.logerror[train.areas_valuepsqft == 0])
+    plt.show()
+    sns.histplot(x= train.logerror[train.areas_valuepsqft == 1])
+    plt.show()
+    sns.histplot(x= train.logerror[train.areas_valuepsqft == 2])
+    plt.show()
+    sns.histplot(x= train.logerror[train.areas_valuepsqft == 3])
+    plt.show()
+    sns.histplot(x= train.logerror[train.areas_valuepsqft == 4])
+    plt.show()
+    sns.histplot(x= train.logerror[train.areas_valuepsqft == 5])
+    plt.show()
     stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3, Clu4, Clu5)
     if p < α:
         print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
