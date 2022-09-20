@@ -93,7 +93,7 @@ The OLS model was chosen because an interesting highly negative RNSE was returne
 | Model | rmse | r2_score |
 | ---- | ---- | ---- |
 | Baseline | .018  | - |
-| OLS_test | .21 | -o.308  |  
+| OLS_test | .21 | -0.308  |  
 
 ## <a name="conclusion"></a>Conclusions:
 
