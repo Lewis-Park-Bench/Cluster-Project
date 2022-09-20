@@ -8,12 +8,11 @@ import urllib.request
 from PIL import Image
 from pydataset import data
 from matplotlib.ticker import StrMethodFormatter
+from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LinearRegression, LassoLars, TweedieRegressor
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.feature_selection import chi2
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, QuantileTransformer
 from sklearn.feature_selection import SelectKBest, f_regression, RFE
@@ -253,14 +252,14 @@ def elbow(train_scaled, variables, start = 2, finish = 15):
     plt.show()
 
 
-def cluster(df_scaled, variables, n_clusters = 5):
+def cluster(df_scaled, variables, n_clusters =5):
     '''
     Takes Scaled Train Dataframe, variables to use to find clusters, and number of clusters desired [default: 5]
     Fits them with KMeans,
     Returns Cluster Predictions [Save as a column in your dataframe.]
     '''
     X = df_scaled[variables]
-    kmeans = KMeans(n_clusters)
+    kmeans = KMeans(n_clusters, random_state = 249)
     kmeans.fit(X)
     return kmeans.predict(X)
 
@@ -301,4 +300,79 @@ def plot_df(train):
                         'acres', 'bath_bed_ratio', 'sqft_bin', 'structure_dollar_per_sqft', 'fips']]
 
     sns.pairplot(data=plt_df, hue='fips', corner = True)
+    plt.show()
+
+    
+def cluster_check_adc(train):
+    plt.hist(train.area_dollar_clusters)
+    plt.show()
+    sns.relplot(data=train, 
+            x="area",
+            y="structure_dollar_per_sqft", 
+            hue = "area_dollar_clusters").set(
+                title="Area vs. Price per SQFT : Highlighted with Cluster")
+    plt.show()
+
+
+
+def cluster_check_abbc(train):
+    sns.relplot(data=train, 
+                x="bedrooms",
+                y="area", 
+                hue = "area_bedbath_clusters").set(
+                    title="Bedroom vs. Area : Highlighted with Area/Bed/Bath Clusters")
+    plt.show()
+    sns.relplot(data=train, 
+            x="bathrooms",
+            y="area", 
+            hue = "area_bedbath_clusters").set(
+                title="Bathroom vs. Area : Highlighted with Area/Bed/Bath Clusters")
+    plt.show()
+    sns.relplot(data=train, 
+            x="bedrooms",
+            y="bathrooms", 
+            hue = "area_bedbath_clusters").set(
+                title="Bedroom vs. Bathroom : Highlighted with Area/Bed/Bath Clusters")
+    plt.show()
+
+
+def cluster_check_abv(train):
+    sns.relplot(data=train, 
+            x="tax_value",
+            y="acres", 
+            hue = "acre_bath_value").set(
+                title="Tax Value vs. Acreage : Highlighted with Acre/Bath/Tax Value Clusters")
+    plt.show()
+    sns.relplot(data=train, 
+            x="bathrooms",
+            y="acres", 
+            hue = "acre_bath_value").set(
+                title="Bathroom vs. Acreage : Highlighted with Acre/Bath/Tax Value Clusters")
+    plt.show()
+    sns.relplot(data=train, 
+            x="tax_value",
+            y="bathrooms", 
+            hue = "acre_bath_value").set(
+                title="Tax Value vs. Bathrooms : Highlighted with Acre/Bath/Tax Value Clusters")
+    plt.show()
+
+
+def cluster_check_avc(train):
+    sns.relplot(data=train, 
+            x="structure_dollar_per_sqft",
+            y="bathrooms", 
+            hue = "areas_valuepsqft").set(
+                title="Value per sqft vs. Bathrooms : Highlighted with Acres/Bathrooms/Bedrooms/Structure $ Value/sqft Clusters")
+    plt.show()
+    sns.relplot(data=train, 
+            x="structure_dollar_per_sqft",
+            y="bedrooms", 
+            hue = "areas_valuepsqft").set(
+                title="Value per sqft vs. Bedrooms : Highlighted with Acres/Bathrooms/Bedrooms/Structure $ Value/sqft Clusters")
+    plt.show()
+    sns.relplot(data=train, 
+            x="structure_dollar_per_sqft",
+            y="acres", 
+            hue = "areas_valuepsqft").set(
+                title="Value per sqft vs. Acres : Highlighted with Acres/Bathrooms/Bedrooms/Structure $ Value/sqft Clusters")
     plt.show()
