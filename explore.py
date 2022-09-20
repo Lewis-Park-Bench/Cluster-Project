@@ -376,3 +376,150 @@ def cluster_check_avc(train):
             hue = "areas_valuepsqft").set(
                 title="Value per sqft vs. Acres : Highlighted with Acres/Bathrooms/Bedrooms/Structure $ Value/sqft Clusters")
     plt.show()
+
+
+# ========== STATS ============
+α = 0.05
+
+def ttest_bedroomupper(train):
+    upper_bedroom_logerror = train.logerror[train.bedrooms > train.bedrooms.median()]
+    expected_logerror_mean = train.logerror.mean()
+    sns.histplot(data = train, x= 'logerror')
+    plt.show()
+    t, p = stats.ttest_1samp(upper_bedroom_logerror, expected_logerror_mean)
+    if p < α:
+        print("We can reject the Null Hypothesis. There is some significant difference.")
+    else:
+        print("We cannot reject the Null Hypothesis, there is little to no significant difference.")
+
+def ttest_bedroomlower(train):
+    lower_bedroom_logerror = train.logerror[train.bedrooms <= train.bedrooms.median()]
+    expected_logerror_mean = train.logerror.mean()
+    t, p = stats.ttest_1samp(lower_bedroom_logerror, expected_logerror_mean)
+    if p < α:
+        print("We can reject the Null Hypothosis. There is some significant difference.")
+    else:
+        print("We cannot reject the Null Hypothosis, there is little to no significant difference.")
+
+def levene_bedroom(train):
+    lower_bedroom_logerror = train.logerror[train.bedrooms <= train.bedrooms.median()]
+    upper_bedroom_logerror = train.logerror[train.bedrooms > train.bedrooms.median()]
+    stat, p = stats.levene(lower_bedroom_logerror, upper_bedroom_logerror)
+    if p < α:
+        print("We can reject the null Hypothesis. There is a difference in Log Error between houses with 3 or less bedrooms, and those with more than 3 bedrooms.")
+    else:
+        print("We cannot reject the null Hypothesis, there is no significant difference in log error by number of bedrooms")
+
+def bedroom_dif_viz(train):
+    lower_bedroom_logerror = train.logerror[train.bedrooms <= train.bedrooms.median()]
+    upper_bedroom_logerror = train.logerror[train.bedrooms > train.bedrooms.median()]
+    sns.scatterplot(train.logerror, upper_bedroom_logerror, label='Over 3 Bedrooms')
+    sns.scatterplot(train.logerror, lower_bedroom_logerror, label = '3 or Less Bedrooms')
+    plt.legend()
+    plt.show()
+
+
+def adc_step1(train):
+    Clu0 = train.logerror[train.area_dollar_clusters == 0]
+    Clu1 = train.logerror[train.area_dollar_clusters == 1]
+    Clu2 = train.logerror[train.area_dollar_clusters == 2]
+    Clu3 = train.logerror[train.area_dollar_clusters == 3]
+    Clu4 = train.logerror[train.area_dollar_clusters == 4]
+    stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3, Clu4)
+    print("graphs here")
+    if p < α:
+        print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
+    else:
+        print("We can reject the Null Hypothesis. The groups appear to have different variances")
+
+def adc_step2(train):
+    Clu0 = train.logerror[train.area_dollar_clusters == 0]
+    Clu1 = train.logerror[train.area_dollar_clusters == 1]
+    Clu2 = train.logerror[train.area_dollar_clusters == 2]
+    Clu3 = train.logerror[train.area_dollar_clusters == 3]
+    Clu4 = train.logerror[train.area_dollar_clusters == 4]
+    t, p = stats.f_oneway(Clu0, Clu1, Clu2, Clu3, Clu4)
+    if p < α:
+        print("We can reject the Null Hypothosis. There is some significant difference in Log Error Means.")
+    else:
+        print("We cannot reject the Null Hypothosis, there is little to no significant difference. in Log Error Means")
+
+
+def abbc_step1(train):
+    Clu0 = train.logerror[train.area_bedbath_clusters == 0]
+    Clu1 = train.logerror[train.area_bedbath_clusters == 1]
+    Clu2 = train.logerror[train.area_bedbath_clusters == 2]
+    Clu3 = train.logerror[train.area_bedbath_clusters == 3]
+    stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3)
+    print("graph here")
+    if p < α:
+        print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
+    else:
+        print("We can reject the Null Hypothesis. The groups appear to have different variances")
+
+def abbc_step2(train):
+    Clu0 = train.logerror[train.area_bedbath_clusters == 0]
+    Clu1 = train.logerror[train.area_bedbath_clusters == 1]
+    Clu2 = train.logerror[train.area_bedbath_clusters == 2]
+    Clu3 = train.logerror[train.area_bedbath_clusters == 3]
+    t, p = stats.f_oneway(Clu0, Clu1, Clu2, Clu3)
+    if p < α:
+        print("We can reject the Null Hypothesis. There is some significant difference in Log Error Means.")
+    else:
+        print("We cannot reject the Null Hypothesis, there is little to no significant difference. in Log Error Means")
+
+
+def abv_step1(train):
+    Clu0 = train.logerror[train.acre_bath_value == 0]
+    Clu1 = train.logerror[train.acre_bath_value == 1]
+    Clu2 = train.logerror[train.acre_bath_value == 2]
+    Clu3 = train.logerror[train.acre_bath_value == 3]
+    Clu4 = train.logerror[train.acre_bath_value == 4]
+    Clu5 = train.logerror[train.acre_bath_value == 5]
+    stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3, Clu4, Clu5)
+    print("Graph here")
+    if p < α:
+        print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
+    else:
+        print("We can reject the Null Hypothesis. The groups appear to have different variances")
+
+def abv_step2(train):
+    Clu0 = train.logerror[train.acre_bath_value == 0]
+    Clu1 = train.logerror[train.acre_bath_value == 1]
+    Clu2 = train.logerror[train.acre_bath_value == 2]
+    Clu3 = train.logerror[train.acre_bath_value == 3]
+    Clu4 = train.logerror[train.acre_bath_value == 4]
+    Clu5 = train.logerror[train.acre_bath_value == 5]
+    t, p = stats.f_oneway(Clu0, Clu1, Clu2, Clu3, Clu4, Clu5)
+    if p < α:
+        print("We can reject the Null Hypothosis. There is some significant difference in Log Error Means.")
+    else:
+        print("We cannot reject the Null Hypothosis, there is little to no significant difference. in Log Error Means")
+
+
+def avs_step1(train):
+    Clu0 = train.logerror[train.areas_valuepsqft == 0]
+    Clu1 = train.logerror[train.areas_valuepsqft == 1]
+    Clu2 = train.logerror[train.areas_valuepsqft == 2]
+    Clu3 = train.logerror[train.areas_valuepsqft == 3]
+    Clu4 = train.logerror[train.areas_valuepsqft == 4]
+    Clu5 = train.logerror[train.areas_valuepsqft == 5]
+    print("graphs here")
+    stat, p = stats.bartlett(Clu0, Clu1, Clu2, Clu3, Clu4, Clu5)
+    if p < α:
+        print("We fail to reject a Null hypothesis. There is not sufficient evidence to say the groups have different variances.")
+    else:
+        print("We can reject the Null Hypothesis. The groups appear to have different variances")
+
+def avs_step2(train):
+    Clu0 = train.logerror[train.areas_valuepsqft == 0]
+    Clu1 = train.logerror[train.areas_valuepsqft == 1]
+    Clu2 = train.logerror[train.areas_valuepsqft == 2]
+    Clu3 = train.logerror[train.areas_valuepsqft == 3]
+    Clu4 = train.logerror[train.areas_valuepsqft == 4]
+    Clu5 = train.logerror[train.areas_valuepsqft == 5]
+    t, p = stats.f_oneway(Clu0, Clu1, Clu2, Clu3, Clu4, Clu5)
+    if p < α:
+        print("We can reject the Null Hypothosis. There is some significant difference in Log Error Means.")
+    else:
+        print("We cannot reject the Null Hypothosis, there is little to no significant difference. in Log Error Means")
